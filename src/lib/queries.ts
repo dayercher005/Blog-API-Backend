@@ -22,6 +22,12 @@ export async function CreateComments(content: string, userID: string){
     })
 }
 
+export async function ReadComments(){
+    const allComments = await prisma.comment.findMany();
+    return allComments
+}
+
+
 export async function CreateAuthors(username: string, password: string){
     await prisma.author.create({
         data:{
