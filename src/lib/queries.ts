@@ -1,4 +1,4 @@
-import { prisma } from './prisma'
+import { prisma } from './prisma.ts'
 
 export async function CreateUsers(username: string, password: string){
     await prisma.user.create({
@@ -7,6 +7,15 @@ export async function CreateUsers(username: string, password: string){
             password: password
         }
     })
+}
+
+export async function ReadIndividualUser(username: string){
+    const individualUser = await prisma.user.findUnique({
+        where:{
+            id: username
+        }
+    })
+    return individualUser;
 }
 
 export async function CreateComments(content: string, userID: string){
