@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { renderLogInForm, sendLogInForm } from '../controllers/log-in.ts';
+import { validateLogInForm, renderLogInForm, sendLogInForm } from '../controllers/user-log-in.ts';
 
 export const LogInRouter = Router();
 
