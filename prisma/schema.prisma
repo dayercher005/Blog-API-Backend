@@ -21,28 +21,31 @@ model Post {
   date      DateTime @default(now())
   duration  String 
   author    Author @relation(fields: [authorID], references: [id])
-  authorID  String 
+  authorID  String
+  comments  Comment[]
 }
 
 model Author {
   id        String @id @default(uuid())
-  username  String
+  username  String @unique
   password  String
   blogs     Post[]
 }
 
 model User {
   id        String @id @default(uuid())
-  username  String
+  username  String @unique
   password  String
   comments  Comment[]
 }
 
 model Comment {
-  id        String @id @default(uuid())
+  id        String    @id @default(uuid())
   content   String
-  date      DateTime @default(now())
-  user      User @relation(fields: [userID],references: [id])
+  date      DateTime  @default(now())
+  user      User      @relation(fields: [userID], references: [id])
   userID    String
+  post      Post      @relation(fields: [postID], references: [id])
+  postID    String
 }
 
