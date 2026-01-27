@@ -1,16 +1,12 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { body, validationResult } from 'express-validator';
-import path from 'node:path';
-import fs from 'fs';
 import type { ValidationChain } from 'express-validator';
 import passport from 'passport';
-import { generateJWT } from '../config/jwtGenerator';
-import { ReadIndividualUser }  from '../lib/queries.ts';
+import { generateJWT } from '../config/jwtGenerator.ts';
+import { ReadIndividualAuthor }  from '../lib/queries.ts';
 
-const pathToKey = path.join('src/config', 'id_rsa_priv.pem');
-const PrivateKey = fs.readFileSync(pathToKey, 'utf8');
 
-export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
+export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
     body("username")
     .notEmpty()
     .isEmail()
@@ -24,7 +20,9 @@ export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
 ]
 
 export function renderLogInForm(req: Request, res: Response){
-    res.json();
+    res.json({
+        message: "success"
+    });
 }
 
 export async function sendLogInForm(req: Request, res: Response, next: NextFunction) {
@@ -32,11 +30,8 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
     if (!errors.isEmpty()){
         return res.status(404).json();
     }
-    passport.authenticate("local", {session: false})
-    const individualUser = await ReadIndividualUser((req.user as any).username)
-    if (individualUser) {
-        const token = generateJWT(individualUser.id, individualUser.username);
-        res.json({token: token})
-    }
+    passport.authenticate("local", { session: false })
+    const individualUser: any = await ReadIndividualAuthor(req.body.username)
+    const token = generateJWT(individualUser?.id, individualUser?.username);
+    res.json({token: token})
 }
-    
