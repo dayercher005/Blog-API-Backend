@@ -12,13 +12,13 @@ export async function CreateUsers(username: string, password: string){
 export async function ReadIndividualUser(username: string){
     const individualUser = await prisma.user.findUnique({
         where:{
-            id: username
+            username: username
         }
     })
     return individualUser;
 }
 
-export async function CreateComments(content: string, userID: string){
+export async function CreateComments(content: string, userID: string, postID: string){
     await prisma.comment.create({
         data:{
             content: content,
@@ -26,13 +26,25 @@ export async function CreateComments(content: string, userID: string){
                 connect:{
                     id: userID
                 }
+            },
+            post:{
+                connect:{
+                    id: postID
+                }
             }
         }
     })
 }
 
-export async function ReadComments(){
-    const allComments = await prisma.comment.findMany();
+export async function ReadComments(postID: string){
+    const allComments = await prisma.post.findUnique({
+        where:{
+            id: postID
+        },
+        include:{
+            comments: true
+        }
+    })
     return allComments
 }
 
@@ -44,6 +56,15 @@ export async function CreateAuthors(username: string, password: string){
             password: password
         }
     })
+}
+
+export async function ReadIndividualAuthor(username: string){
+    const individualAuthor = await prisma.author.findUnique({
+        where:{
+            username: username
+        }
+    })
+    return individualAuthor
 }
 
 export async function CreatePosts(title: string, content: string, duration: string, authorID: string){

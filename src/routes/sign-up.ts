@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { renderSignUpForm, sendSignUpForm } from '../controllers/sign-up.ts';
+import { renderSignUpForm, sendSignUpForm } from '../controllers/user-sign-up.ts';
 
 export const SignUpRouter = Router();
 
