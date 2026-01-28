@@ -58,6 +58,34 @@
 
 ---
 
+## System Architecture
+
+```mermaid
+---
+config: 
+    theme: 'dark'
+---
+
+graph TB
+    Client(Author) [Author Blog Website]
+    Client(User)[User Blog Website]
+    Server[Blog Express API]
+    Database[(PostgreSQL Database)]
+    Passport[Passport.js Auth]
+    Prisma[Prisma ORM]
+    
+    Client(User) --> |HTTP Requests| Server
+    Client(Author) -->|HTTP Requests| Server
+    Server -->|JWT Authentication| Passport
+    Server -->|Database Queries| Prisma
+    Prisma -->|SQL Queries| Database
+    Server -->|HTTP Responses| Client(Author)
+    Server -->|HTTP Responses| Client(User)
+
+```
+
+---
+
 ##  🛠️ Languages and Tools
 ![Static Badge](https://img.shields.io/badge/Typescript-_?style=for-the-badge&logo=Typescript&logoColor=%233178C6&labelColor=black&color=%233178C6)![Static Badge](https://img.shields.io/badge/Express-_?style=for-the-badge&logo=Express&labelColor=black&color=%23000000)   ![Static Badge](https://img.shields.io/badge/Passport-_?style=for-the-badge&logo=Passport&logoColor=%2334E27A&labelColor=black&color=%2334E27A)![Static Badge](https://img.shields.io/badge/PostgreSQL-_?style=for-the-badge&logo=PostgreSQL&logoColor=%234169E1&labelColor=black&color=%234169E1)
 
