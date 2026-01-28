@@ -2,7 +2,7 @@ import type { Request, Response, RequestHandler } from 'express';
 import { body, validationResult, matchedData } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import type { ValidationChain } from 'express-validator';
-import { CreateUsers } from '../lib/queries.ts';
+import { CreateAuthors } from '../../lib/queries.ts';
 
 
 export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
@@ -34,7 +34,7 @@ export async function sendSignUpForm(req: Request, res: Response){
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    CreateUsers(username, encryptedPassword);
+    CreateAuthors(username, encryptedPassword);
 
     res.redirect("/log-in");
 }
