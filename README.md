@@ -67,7 +67,7 @@ config:
 ---
 
 graph TB
-    Client(Author) [Author Blog Website]
+    Client(Author)[Author Blog Website]
     Client(User)[User Blog Website]
     Server[Blog Express API]
     Database[(PostgreSQL Database)]
