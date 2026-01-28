@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { ReadPosts, ReadIndividualPost, ReadComments } from '../lib/queries.ts';
+import { ReadPosts, ReadIndividualPost, ReadComments } from '../../lib/queries.ts';
 
 export async function renderDashboard(req: Request, res: Response){
     const allPosts = await ReadPosts()

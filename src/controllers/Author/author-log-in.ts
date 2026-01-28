@@ -2,8 +2,8 @@ import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { body, validationResult } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
 import passport from 'passport';
-import { generateJWT } from '../config/jwtGenerator.ts';
-import { ReadIndividualUser }  from '../lib/queries.ts';
+import { generateJWT } from '../../config/jwtGenerator.ts';
+import { ReadIndividualAuthor }  from '../../lib/queries.ts';
 
 
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
@@ -31,8 +31,7 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
         return res.status(404).json();
     }
     passport.authenticate("local", { session: false })
-    const individualUser: any = await ReadIndividualUser(req.body.username)
+    const individualUser: any = await ReadIndividualAuthor(req.body.username)
     const token = generateJWT(individualUser?.id, individualUser?.username);
     res.json({token: token})
 }
-    

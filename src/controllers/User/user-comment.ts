@@ -1,7 +1,7 @@
 import type { Request, Response, RequestHandler } from 'express';
 import { body, validationResult, matchedData } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
-import { CreateComments } from '../lib/queries.ts';
+import { CreateComments } from '../../lib/queries.ts';
 
 export const validatorCommentForm: (ValidationChain | RequestHandler)[] = [
     body("content")
@@ -11,7 +11,7 @@ export const validatorCommentForm: (ValidationChain | RequestHandler)[] = [
 
 export async function renderCommentForm(req: Request, res: Response){
     res.json({
-
+        message: 'success'
     })
 }
 
