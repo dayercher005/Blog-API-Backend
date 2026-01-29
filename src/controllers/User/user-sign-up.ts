@@ -8,7 +8,6 @@ import { CreateUsers } from '../../lib/queries.ts';
 export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
     body("username")
     .notEmpty()
-    .isEmail()
     .withMessage("Please enter a valid username"),
     body("password")
     .notEmpty()
@@ -18,11 +17,6 @@ export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
     })
 ]
 
-export function renderSignUpForm(req: Request, res: Response){
-    res.json({
-        message: "success"
-    });
-}
 
 export async function sendSignUpForm(req: Request, res: Response){
     const errors = validationResult(req);
@@ -34,7 +28,8 @@ export async function sendSignUpForm(req: Request, res: Response){
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    CreateUsers(username, encryptedPassword);
+    console.log(username, password);
+    await CreateUsers(username, encryptedPassword);
 
-    res.redirect("/log-in");
+    res.json({redirectTo: ''});
 }

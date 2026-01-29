@@ -9,7 +9,6 @@ import { ReadIndividualAuthor }  from '../../lib/queries.ts';
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
     body("username")
     .notEmpty()
-    .isEmail()
     .withMessage("Please enter a valid username"),
     body("password")
     .notEmpty()

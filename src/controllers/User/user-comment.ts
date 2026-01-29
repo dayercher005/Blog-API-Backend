@@ -23,6 +23,6 @@ export async function sendCommentForm(req: Request, res: Response){
         })
     }
     const { content } = matchedData(req);
-    await CreateComments(content, req.user?.id, req.params.post as string)
+    await CreateComments(content, (req.user as any)?.id, req.params.post as string)
     res.json({hi: "hi"})
 }

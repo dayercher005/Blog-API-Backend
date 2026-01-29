@@ -8,7 +8,6 @@ import { CreateAuthors } from '../../lib/queries.ts';
 export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
     body("username")
     .notEmpty()
-    .isEmail()
     .withMessage("Please enter a valid username"),
     body("password")
     .notEmpty()

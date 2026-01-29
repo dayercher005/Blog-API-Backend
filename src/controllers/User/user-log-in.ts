@@ -9,7 +9,6 @@ import { ReadIndividualUser }  from '../../lib/queries.ts';
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
     body("username")
     .notEmpty()
-    .isEmail()
     .withMessage("Please enter a valid username"),
     body("password")
     .notEmpty()
@@ -19,11 +18,6 @@ export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
     })
 ]
 
-export function renderLogInForm(req: Request, res: Response){
-    res.json({
-        message: "success"
-    });
-}
 
 export async function sendLogInForm(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
