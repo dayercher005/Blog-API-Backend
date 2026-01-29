@@ -67,8 +67,8 @@ config:
 ---
 
 graph TB
-    Client(Author)[Author Blog Website]
-    Client(User)[User Blog Website]
+    AuthorClient[Author Blog Website]
+    UserClient[User Blog Website]
     Server[Blog Express API]
     Database[(PostgreSQL Database)]
     Passport[Passport.js Auth]
@@ -79,8 +79,8 @@ graph TB
     Server -->|JWT Authentication| Passport
     Server -->|Database Queries| Prisma
     Prisma -->|SQL Queries| Database
-    Server -->|HTTP Responses| Client(Author)
-    Server -->|HTTP Responses| Client(User)
+    Server -->|HTTP Responses| AuthorClient
+    Server -->|HTTP Responses| UserClient
 
 ```
 
