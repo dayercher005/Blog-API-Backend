@@ -74,8 +74,8 @@ graph TB
     Passport[Passport.js Auth]
     Prisma[Prisma ORM]
     
-    Client(User) --> |HTTP Requests| Server
-    Client(Author) -->|HTTP Requests| Server
+    AuthorClient --> |HTTP Requests| Server
+    UserClient -->|HTTP Requests| Server
     Server -->|JWT Authentication| Passport
     Server -->|Database Queries| Prisma
     Prisma -->|SQL Queries| Database
