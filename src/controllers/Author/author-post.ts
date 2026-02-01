@@ -15,11 +15,6 @@ export const validatePostForm: (ValidationChain | RequestHandler)[] = [
     .withMessage("Please enter a valid reading time for your post")
 ]
 
-export async function renderPostForm(req: Request, res: Response){
-    res.json({
-
-    })
-}
 
 export async function sendPostForm(req: Request, res: Response){
     const errors = validationResult(req);

@@ -1,9 +1,10 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
-import { body, validationResult } from 'express-validator';
+import { body, validationResult, matchedData } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
-import passport from 'passport';
+import { prisma } from '../../lib/prisma.ts';
 import { generateJWT } from '../../config/jwtGenerator.ts';
 import { ReadIndividualUser }  from '../../lib/queries.ts';
+import bcrypt from 'bcryptjs';
 
 interface User {
     id: string;
@@ -11,12 +12,28 @@ interface User {
 }
 
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
-    body("username")
-    .notEmpty()
-    .withMessage("Please enter a valid username"),
-    body("password")
-    .notEmpty()
-    .withMessage("Password cannot be empty")
+    body("username").custom( async (value, { req }) => {
+        if (!value) { throw new Error("Username cannot be empty")}   
+
+        const user = await prisma.user.findUnique({
+            where: { username: value }
+        })
+
+        if (!user) {throw new Error("Username not found")};
+
+        req.user = user;
+    }),
+    
+    body("password").custom( async (value, {req}) => {
+        if (!value){ throw new Error("Password cannot be empty")}
+
+        const EncryptedPassword = req.user.password;
+        const matchedPassword = bcrypt.compare(value, EncryptedPassword);
+
+        if (!matchedPassword){
+            throw new Error("Incorrect password")
+        }
+    })
 ]
 
 
@@ -25,23 +42,10 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
     if (!errors.isEmpty()){
         return res.status(404).json();
     }
-    passport.authenticate("LocalUserAuthentication", { session: false }, (user: any) => {
-        if (!user){
-            return res.status(400).json({
-                message: "Error",
-                user: user
-            })
-        }
-    });
-
-    req.logIn(user, { session: false}, (error) => {
-        if (error) {
-            res.send(error);
-        }
-    })
-    console.log(req.user);
+        
     const individualUser: any = await ReadIndividualUser(req.body.username);
     const token = generateJWT(individualUser?.id, req.body.username);
     res.json({token: token})
+    
 }
     

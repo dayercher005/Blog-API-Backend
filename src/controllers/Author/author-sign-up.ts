@@ -17,11 +17,6 @@ export const validateSignUpForm: (ValidationChain | RequestHandler)[] = [
     })
 ]
 
-export function renderSignUpForm(req: Request, res: Response){
-    res.json({
-        message: "success"
-    });
-}
 
 export async function sendSignUpForm(req: Request, res: Response){
     const errors = validationResult(req);

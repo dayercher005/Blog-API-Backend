@@ -27,8 +27,7 @@ export async function sendSignUpForm(req: Request, res: Response){
     const { username, password } = matchedData(req);
 
     const encryptedPassword = await bcrypt.hash(password, 10);
-
-    console.log(username, password);
+    
     await CreateUsers(username, encryptedPassword);
 
     res.json({redirectTo: ''});

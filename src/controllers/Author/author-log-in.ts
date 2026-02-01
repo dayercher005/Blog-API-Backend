@@ -1,36 +1,38 @@
 import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { body, validationResult } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
-import passport from 'passport';
+import { prisma } from '../../lib/prisma.ts';
+import bcrypt from 'bcryptjs';
 import { generateJWT } from '../../config/jwtGenerator.ts';
 import { ReadIndividualAuthor }  from '../../lib/queries.ts';
 
 
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
-    body("username")
-    .notEmpty()
-    .withMessage("Please enter a valid username"),
-    body("password")
-    .notEmpty()
-    .withMessage("Password cannot be empty"),
-    body("confirmPassword").custom((password:string , {req}) => {
-        return password === req.body.password
+    body("username").custom(async (value, { req }) => {
+        if (!value) { throw new Error("Username cannot be empty")}
+        const author = await prisma.author.findUnique({
+            where: { username: value }
+        })
+        req.author = author
+    }),
+    body("password").custom(async (value, {req}) => {
+        if (!value) { throw new Error("Password cannot be empty")}
+        const EncryptedPassword = req.author.password;
+        const matchedPassword = bcrypt.compare(value, EncryptedPassword);
+
+        if (!matchedPassword){
+            throw new Error("Incorrect password");
+        }
     })
 ]
-
-export function renderLogInForm(req: Request, res: Response){
-    res.json({
-        message: "success"
-    });
-}
 
 export async function sendLogInForm(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()){
         return res.status(404).json();
     }
-    passport.authenticate("local", { session: false })
-    const individualUser: any = await ReadIndividualAuthor(req.body.username)
-    const token = generateJWT(individualUser?.id, individualUser?.username);
+
+    const individualAuthor: any = await ReadIndividualAuthor(req.body.username);
+    const token = generateJWT(individualAuthor?.id, req.body.username);
     res.json({token: token})
 }
