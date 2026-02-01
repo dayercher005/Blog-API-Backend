@@ -1,14 +1,23 @@
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import passport from 'passport';
 import { ReadIndividualUser } from '../lib/queries.ts';
+import "dotenv/config";
 
 
 const opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'secret'
+    secretOrKey: process.env.SECRET_OR_PUBLIC_KEY || ''
 }
 
-passport.use(new JwtStrategy(opts, async (payload, done) => {
+interface JwtPayload {
+  id: string;
+}
+
+interface DoneCallback {
+  (error: Error | null, user?: any | false): void;
+}
+
+passport.use(new JwtStrategy(opts, async (payload: JwtPayload, done: DoneCallback) => {
   try{
     const user = await ReadIndividualUser(payload.id);
     if (!user) {
@@ -17,6 +26,6 @@ passport.use(new JwtStrategy(opts, async (payload, done) => {
       return done(null, user);
     }
   } catch (error){
-      return done(error, false)
+      return done(error as Error, false)
   }
 }))
