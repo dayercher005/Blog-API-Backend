@@ -40,15 +40,18 @@ model User {
   username  String @unique
   password  String
   comments  Comment[]
+
+  @@unique([id, username])
 }
 
 model Comment {
-  id        String    @id @default(uuid())
-  content   String
-  date      DateTime  @default(now())
-  user      User      @relation(fields: [userID], references: [id])
-  userID    String
-  post      Post      @relation(fields: [postID], references: [id])
-  postID    String
+  id            String    @id @default(uuid())
+  content       String
+  date          DateTime  @default(now())
+  user          User      @relation(fields: [userID, userUsername], references: [id, username])
+  userID        String
+  userUsername  String 
+  post          Post      @relation(fields: [postID], references: [id])
+  postID        String
 }
 
