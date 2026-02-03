@@ -2,7 +2,7 @@ import type { Request, Response, RequestHandler } from 'express';
 import { body, validationResult, matchedData } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
 import { CreatePosts } from '../../lib/queries.ts';
-import { getUserIdFromToken } from '../../config/authentication.ts';
+
 
 export function renderCreateBlogForm(req: Request, res: Response){
     res.json({
@@ -30,7 +30,8 @@ export async function sendPostForm(req: Request, res: Response){
             error: "Error"
         })
     }
-    const authorID = getUserIdFromToken(req.headers["authorization"]);
+    
+    const authorID = req.user?.id
 
     const { title, content, duration } = matchedData(req);
     await CreatePosts(title, content, duration, authorID);
