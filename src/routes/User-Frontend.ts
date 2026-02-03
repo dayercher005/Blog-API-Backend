@@ -1,16 +1,17 @@
 import { Router } from 'express';
-import { Authentication } from '../config/authentication.ts';
-import { renderDashboard, renderIndividualPost } from '../controllers/User/user-dashboard.ts';
-import { renderCommentForm, sendCommentForm } from '../controllers/User/user-comment.ts';
-import { validateLogInForm, sendLogInForm } from '../controllers/User/user-log-in.ts';
-import { validateSignUpForm, sendSignUpForm } from '../controllers/User/user-sign-up.ts';
+import { renderDashboard, renderIndividualPost } from '../controllers/User/Homepage.ts';
+import { renderCommentForm, sendCommentForm } from '../controllers/User/CreateComment.ts';
+import { validateLogInForm, sendLogInForm } from '../controllers/User/Login.ts';
+import { validateSignUpForm, sendSignUpForm } from '../controllers/User/SignUp.ts';
+import "../config/jwtStrategy.ts";
+import passport from 'passport';
 
 export const UserFrontend = Router();
 
 UserFrontend.get("/", renderDashboard);
-UserFrontend.get("/:post", renderIndividualPost);
-UserFrontend.get("/:post/comment", Authentication, renderCommentForm);
-UserFrontend.post("/:post/comment", Authentication, sendCommentForm);
+UserFrontend.get("/:post", passport.authenticate("UserJwtStrategy", {session: false}), renderIndividualPost);
+UserFrontend.get("/:post/comment", passport.authenticate("UserJwtStrategy", {session: false}), renderCommentForm);
+UserFrontend.post("/:post/comment", passport.authenticate("UserJwtStrategy", {session: false}), sendCommentForm);
 
 UserFrontend.post("/log-in", validateLogInForm, sendLogInForm);
 
