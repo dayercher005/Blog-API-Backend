@@ -1,5 +1,12 @@
-import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import "dotenv/config";
 
-export async function Authentication(){
-    await passport.authenticate("jwt", {session: false});
+
+const JWT_SECRET = process.env.SECRET_KEY || '';
+
+export function getUserIdFromToken(token: any) {
+    const decodedPayload: any = jwt.verify(token, JWT_SECRET);
+    console.log(decodedPayload);
+
+  
 }

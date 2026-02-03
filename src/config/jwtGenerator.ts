@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import "dotenv/config";
 
-export function generateJWT(userID: string, username: string){
+export function generateJWT(ID: string, username: string){
     const payload = {
-        id: userID,
+        id: ID,
         username: username
     }
-    const secretOrPrivateKey: any = process.env.SECRET_OR_PUBLIC_KEY;
-    const token = jwt.sign(payload, secretOrPrivateKey, {expiresIn: "3h"});
+    const secretOrPrivateKey = process.env.SECRET_KEY || '';
+    const token = jwt.sign(payload, secretOrPrivateKey, { expiresIn: "10h" });
     return token
 }
