@@ -1,10 +1,9 @@
 import express from 'express';
 import type { Application } from 'express';
 import cors from 'cors';
-import { UserLogInRouter } from './src/routes/User/user-log-in.ts';
-import { UserSignUpRouter } from './src/routes/User/user-sign-up.ts';
-import { UserDashboardRouter } from './src/routes/User/user-dashboard.ts';
-
+import { UserFrontend } from './src/routes/User-Frontend.ts';
+import { AuthorFrontend } from './src/routes/Author-Frontend.ts';
+import "./src/config/jwtStrategy.ts";
 
 const app: Application = express();
 
@@ -24,12 +23,12 @@ const DynamicCorsOptions: DynamicCorsOptionsType = {
   }
 }
 
-app.use(express.json());
 app.use(cors(DynamicCorsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/", UserDashboardRouter);
-app.use("/log-in", UserLogInRouter);
-app.use("/sign-up", UserSignUpRouter);
+app.use("/author", AuthorFrontend);
+app.use("/user", UserFrontend);
 
 
 const PORT = 8080;
