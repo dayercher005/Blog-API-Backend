@@ -1,6 +1,14 @@
 import type { Request, Response, RequestHandler } from 'express';
 import { body, validationResult, matchedData } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
+import { CreatePosts } from '../../lib/queries.ts';
+import { getUserIdFromToken } from '../../config/authentication.ts';
+
+export function renderCreateBlogForm(req: Request, res: Response){
+    res.json({
+        user: req.user
+    })
+}
 
 export const validatePostForm: (ValidationChain | RequestHandler)[] = [
     body("title")
@@ -9,7 +17,6 @@ export const validatePostForm: (ValidationChain | RequestHandler)[] = [
     body("content")
     .notEmpty()
     .withMessage("Content of Blog cannot be empty"),
-    body("published"),
     body("duration")
     .notEmpty()
     .withMessage("Please enter a valid reading time for your post")
@@ -23,4 +30,8 @@ export async function sendPostForm(req: Request, res: Response){
             error: "Error"
         })
     }
+    const authorID = getUserIdFromToken(req.headers["authorization"]);
+
+    const { title, content, duration } = matchedData(req);
+    await CreatePosts(title, content, duration, authorID);
 }

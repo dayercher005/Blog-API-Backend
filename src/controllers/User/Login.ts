@@ -44,7 +44,7 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
     }
         
     const individualUser: any = await ReadIndividualUser(req.body.username);
-    const token = generateJWT(individualUser?.id, req.body.username);
+    const token = generateJWT(individualUser.id, individualUser.username);
     res.json({token: token})
     
 }
