@@ -30,5 +30,4 @@ export async function sendSignUpForm(req: Request, res: Response){
     
     await CreateUsers(username, encryptedPassword);
 
-    res.json({redirectTo: ''});
 }

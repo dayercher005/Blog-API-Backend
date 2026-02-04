@@ -3,7 +3,7 @@ import { body, validationResult, matchedData } from 'express-validator';
 import type { ValidationChain } from 'express-validator';
 import { CreateComments } from '../../lib/queries.ts';
 
-export const validatorCommentForm: (ValidationChain | RequestHandler)[] = [
+export const validateCommentForm: (ValidationChain | RequestHandler)[] = [
     body("content")
     .notEmpty()
     .withMessage("Please fill in a comment if you are going to submit one")
@@ -22,7 +22,9 @@ export async function sendCommentForm(req: Request, res: Response){
             error: "Error"
         })
     }
+    console.log(req.body);
+    console.log(matchedData(req));
     const { content } = matchedData(req);
-    await CreateComments(content, (req.user as any)?.id, req.params.post as string)
-    res.json({hi: "hi"})
+    console.log(content);
+    await CreateComments(content, (req.user as any)?.id, req.params.blogID as string)
 }
