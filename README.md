@@ -11,25 +11,12 @@
 ├── package-lock.json
 ├── package.json
 ├── prisma
-│   ├── migrations
-│   │   ├── 20260125030916_init
-│   │   │   └── migration.sql
-│   │   ├── 20260127034311
-│   │   │   └── migration.sql
-│   │   ├── 20260127055041
-│   │   │   └── migration.sql
-│   │   ├── 20260130140930
-│   │   │   └── migration.sql
-│   │   ├── 20260202031726
-│   │   │   └── migration.sql
-│   │   └── migration_lock.toml
 │   └── schema.prisma
 ├── prisma.config.ts
 ├── README.md
 ├── script.ts
 ├── src
 │   ├── config
-│   │   ├── authentication.ts
 │   │   ├── jwtGenerator.ts
 │   │   └── jwtStrategy.ts
 │   ├── controllers
@@ -68,25 +55,26 @@ config:
 graph TB
     AuthorClient[Author Blog Website]
     UserClient[User Blog Website]
-    Server[Blog Express API]
+    API[Blog API]
     Database[(PostgreSQL Database)]
-    Passport[Passport.js Auth]
+    Passport[Passport.js Authenticator]
     Prisma[Prisma ORM]
     
-    AuthorClient --> |HTTP Requests| Server
-    UserClient -->|HTTP Requests| Server
-    Server -->|JWT Authentication| Passport
-    Server -->|Database Queries| Prisma
+    AuthorClient --> |HTTP Requests| API
+    UserClient -->|HTTP Requests| API
+    API -->|JWT Authentication| Passport
+    API -->|Database Queries| Prisma
     Prisma -->|SQL Queries| Database
-    Server -->|HTTP Responses| AuthorClient
-    Server -->|HTTP Responses| UserClient
+    API -->|HTTP Responses| AuthorClient
+    API -->|HTTP Responses| UserClient
 
 ```
 
 ---
 
 ##  🛠️ Languages and Tools
-![Static Badge](https://img.shields.io/badge/Typescript-_?style=for-the-badge&logo=Typescript&logoColor=%233178C6&labelColor=black&color=%233178C6)![Static Badge](https://img.shields.io/badge/Express-_?style=for-the-badge&logo=Express&labelColor=black&color=%23000000)   ![Static Badge](https://img.shields.io/badge/Passport-_?style=for-the-badge&logo=Passport&logoColor=%2334E27A&labelColor=black&color=%2334E27A)![Static Badge](https://img.shields.io/badge/JSON%20Web%20Tokens-_?style=for-the-badge&logo=JSON%20Web%20Tokens&logoColor=white&labelColor=black&color=white)![Static Badge](https://img.shields.io/badge/PostgreSQL-_?style=for-the-badge&logo=PostgreSQL&logoColor=%234169E1&labelColor=black&color=%234169E1)
+![Typescript](https://img.shields.io/badge/Typescript-_?style=for-the-badge&logo=Typescript&logoColor=%233178C6&labelColor=black&color=%233178C6) ![Node.js](https://img.shields.io/badge/Node.js-_?style=for-the-badge&logo=Node.js&logoColor=%235FA04E&labelColor=black&color=%235FA04E) ![Express](https://img.shields.io/badge/Express-_?style=for-the-badge&logo=Express&labelColor=black&color=%23000000)   ![Passport](https://img.shields.io/badge/Passport-_?style=for-the-badge&logo=Passport&logoColor=%2334E27A&labelColor=black&color=%2334E27A) ![JSONWebTokens](https://img.shields.io/badge/JSON%20Web%20Tokens-_?style=for-the-badge&logo=JSON%20Web%20Tokens&logoColor=white&labelColor=black&color=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-_?style=for-the-badge&logo=PostgreSQL&logoColor=%234169E1&labelColor=black&color=%234169E1) ![Prisma](https://img.shields.io/badge/Prisma-_?style=for-the-badge&logo=Prisma&logoColor=%232D3748&labelColor=black&color=%232D3748)
+
 
 ---
 
