@@ -6,10 +6,6 @@ import { generateJWT } from '../../config/jwtGenerator.ts';
 import { ReadIndividualUser }  from '../../lib/queries.ts';
 import bcrypt from 'bcryptjs';
 
-interface User {
-    id: string;
-    username: string;
-}
 
 export const validateLogInForm: (ValidationChain | RequestHandler)[] = [
     body("username").custom( async (value, { req }) => {
@@ -45,7 +41,9 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
         
     const individualUser: any = await ReadIndividualUser(req.body.username);
     const token = generateJWT(individualUser.id, individualUser.username);
-    res.json({token: token})
+    res.json({
+        token: token
+    })
     
 }
     

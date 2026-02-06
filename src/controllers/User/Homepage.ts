@@ -1,18 +1,7 @@
 import type { Request, Response } from 'express';
-import { ReadPosts, ReadIndividualPost, ReadComments } from '../../lib/queries.ts';
 
-export async function renderDashboard(req: Request, res: Response){
-    const allPosts = await ReadPosts();
-    res.json({posts: allPosts});
-}
-
-export async function renderIndividualPost(req: Request, res: Response){
-    const individualPost: any = await ReadIndividualPost(req.params.blogID as string)
-    const allComments = await ReadComments(req.params.blogID as string);
-    console.log(req.user);
-    res.json({
-        user: req.user,
-        post: individualPost,
-        comments: allComments
-    });
+export function renderHomepage(req: Request, res: Response){
+    return res.json({
+        user: req.user
+    })
 }
