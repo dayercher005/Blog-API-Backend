@@ -92,7 +92,7 @@ npm install
 
 3. Run Development Server
 ```bash
-npm install
+node app.ts
 ```
 
 4. Open `http://localhost:8080` in your browser
