@@ -18,6 +18,7 @@ interface DoneCallback {
   (error: Error | null, user?: any | false): void;
 }
 
+
 passport.use("UserJwtStrategy", new JwtStrategy(opts, async (payload: JwtPayload, done: DoneCallback) => {
   try{
     const user = await ReadIndividualUser(payload.username);
@@ -40,6 +41,6 @@ passport.use("AuthorJwtStrategy", new JwtStrategy(opts, async (payload: JwtPaylo
       return done(null, author);
     }
   } catch (error){
-    return done(error as Error, false)
+    return done(error as Error, false);
   }
 }))
