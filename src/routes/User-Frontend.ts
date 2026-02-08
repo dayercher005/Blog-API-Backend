@@ -16,7 +16,8 @@ UserFrontend.get("/",
 
 UserFrontend.get("/dashboard",
     passport.authenticate("UserJwtStrategy", {session: false}), 
-    renderDashboard
+    renderDashboard,
+    verifyUserStatus
 );
 
 UserFrontend.get("/:blogID", 
@@ -27,7 +28,7 @@ UserFrontend.get("/:blogID",
 
 UserFrontend.get("/:blogID/comment", 
     passport.authenticate("UserJwtStrategy", {session: false}), 
-    renderCommentForm
+    renderCommentForm,
 );
 
 UserFrontend.post("/:blogID/comment", 

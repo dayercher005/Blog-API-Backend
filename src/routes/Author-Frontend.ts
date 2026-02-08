@@ -8,12 +8,28 @@ import passport from 'passport';
 
 export const AuthorFrontend = Router();
 
-AuthorFrontend.get("/dashboard", passport.authenticate("AuthorJwtStrategy", {session: false}), renderDashboard);
+AuthorFrontend.get("/dashboard", 
+    passport.authenticate("AuthorJwtStrategy", {session: false}), 
+    renderDashboard
+);
 
-AuthorFrontend.get("/create-blog", passport.authenticate("AuthorJwtStrategy", {session: false}), renderCreateBlogForm);
-AuthorFrontend.post("/create-blog", passport.authenticate("AuthorJwtStrategy", {session: false}), 
-                    validatePostForm, sendPostForm);
+AuthorFrontend.get("/create-blog", 
+    passport.authenticate("AuthorJwtStrategy", {session: false}), 
+    renderCreateBlogForm
+);
 
-AuthorFrontend.post("/log-in", validateLogInForm, sendLogInForm);
+AuthorFrontend.post("/create-blog", 
+    passport.authenticate("AuthorJwtStrategy", {session: false}), 
+    validatePostForm, 
+    sendPostForm
+);
 
-AuthorFrontend.post("/sign-up", validateSignUpForm, sendSignUpForm);
+AuthorFrontend.post("/log-in", 
+    validateLogInForm, 
+    sendLogInForm
+);
+
+AuthorFrontend.post("/sign-up", 
+    validateSignUpForm, 
+    sendSignUpForm
+);
