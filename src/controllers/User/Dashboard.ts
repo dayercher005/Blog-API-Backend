@@ -3,7 +3,6 @@ import { ReadPosts, ReadIndividualPost, ReadComments } from '../../lib/queries.t
 
 export async function renderDashboard(req: Request, res: Response){
     const allPosts = await ReadPosts();
-    console.log(res);
     res.json({
         posts: allPosts
     });
@@ -19,7 +18,6 @@ export async function renderIndividualPost(req: Request, res: Response){
 }
 
 export function verifyUserStatus(req: Request, res: Response){
-    console.log(req);
     res.json({
         user: req.user
     })
