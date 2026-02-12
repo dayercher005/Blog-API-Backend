@@ -48,6 +48,23 @@ export async function ReadComments(postID: string){
     return allComments
 }
 
+export async function ReadIndividualComment(commentID: string){
+    const individualComment = await prisma.comment.findUnique({
+        where:{
+            id: commentID
+        }
+    });
+    return individualComment
+}
+
+export async function DeleteComments(commentID: string){
+    await prisma.comment.delete({
+        where:{
+            id: commentID
+        }
+    })
+}
+
 
 export async function CreateAuthors(username: string, password: string){
     await prisma.author.create({
@@ -57,6 +74,7 @@ export async function CreateAuthors(username: string, password: string){
         }
     })
 }
+
 
 export async function ReadIndividualAuthor(username: string){
     const individualAuthor = await prisma.author.findUnique({
