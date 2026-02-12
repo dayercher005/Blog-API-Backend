@@ -30,3 +30,9 @@ export async function sendSignUpForm(req: Request, res: Response){
 
     await CreateAuthors(username, encryptedPassword);
 }
+
+export function getSignUpForm(req: Request, res: Response){
+    res.json({
+        message: "Success"
+    })
+}

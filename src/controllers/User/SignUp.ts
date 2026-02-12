@@ -31,3 +31,9 @@ export async function sendSignUpForm(req: Request, res: Response){
     await CreateUsers(username, encryptedPassword);
 
 }
+
+export async function getSignUpForm(req: Request, res: Response){
+    res.send({
+        message: "success"
+    })
+}

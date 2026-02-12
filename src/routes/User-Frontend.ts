@@ -2,8 +2,8 @@ import { Router } from 'express';
 import { renderHomepage } from '../controllers/User/Homepage.ts';
 import { renderDashboard, renderIndividualPost, verifyUserStatus } from '../controllers/User/Dashboard.ts';
 import { renderCommentForm, validateCommentForm, sendCommentForm } from '../controllers/User/CreateComment.ts';
-import { validateLogInForm, sendLogInForm } from '../controllers/User/Login.ts';
-import { validateSignUpForm, sendSignUpForm } from '../controllers/User/SignUp.ts';
+import { validateLogInForm, sendLogInForm, getLogInForm } from '../controllers/User/Login.ts';
+import { validateSignUpForm, sendSignUpForm, getSignUpForm } from '../controllers/User/SignUp.ts';
 import "../config/jwtStrategy.ts";
 import passport from 'passport';
 
@@ -37,9 +37,18 @@ UserFrontend.post("/:blogID/comment",
     sendCommentForm
 );
 
+UserFrontend.get("/log-in",
+    getLogInForm
+);
+
 UserFrontend.post("/log-in", 
     validateLogInForm, 
     sendLogInForm
+);
+
+
+UserFrontend.get("/sign-up", 
+    getSignUpForm
 );
 
 UserFrontend.post("/sign-up", 

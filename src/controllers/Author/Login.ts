@@ -36,3 +36,9 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
     const token = generateJWT(individualAuthor?.id, individualAuthor?.username);
     res.json({token: token})
 }
+
+export function getLogInForm(req: Request, res: Response){
+    res.json({
+        message: "Success"
+    });
+};
