@@ -7,7 +7,7 @@ import "./src/config/jwtStrategy.ts";
 
 const app: Application = express();
 
-const allowedOrigins: string[] = ['https://user-blog-frontend.vercel.app/', 'https://author-blog-frontend.vercel.app/'];
+const allowedOrigins: string[] = ['https://user-blog-frontend.vercel.app', 'https://author-blog-frontend.vercel.app'];
 
 interface DynamicCorsOptionsType {
   origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => void;
