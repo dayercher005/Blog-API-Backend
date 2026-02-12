@@ -29,6 +29,4 @@ export async function sendSignUpForm(req: Request, res: Response){
     const encryptedPassword = await bcrypt.hash(password, 10);
 
     await CreateAuthors(username, encryptedPassword);
-
-    res.redirect("/log-in");
 }
