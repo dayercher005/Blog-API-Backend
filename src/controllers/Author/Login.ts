@@ -34,11 +34,11 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
 
     const individualAuthor: any = await ReadIndividualAuthor(req.body.username);
     const token = generateJWT(individualAuthor?.id, individualAuthor?.username);
-    res.json({token: token})
+    return res.json({token: token})
 }
 
 export function getLogInForm(req: Request, res: Response){
-    res.json({
+    return res.json({
         message: "Success"
     });
 };
