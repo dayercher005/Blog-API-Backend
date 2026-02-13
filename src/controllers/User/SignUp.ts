@@ -33,7 +33,7 @@ export async function sendSignUpForm(req: Request, res: Response){
 }
 
 export async function getSignUpForm(req: Request, res: Response){
-    res.send({
+    res.json({
         message: "success"
     })
 }
