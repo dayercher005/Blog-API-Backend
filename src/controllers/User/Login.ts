@@ -47,7 +47,7 @@ export async function sendLogInForm(req: Request, res: Response, next: NextFunct
     
 }
     
-export async function getLogInForm(req: Request, res: Response){
+export async function renderLoginForm(req: Request, res: Response){
     return res.json({
         message: "success"
     })

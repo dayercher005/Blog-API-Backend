@@ -32,7 +32,7 @@ export async function sendSignUpForm(req: Request, res: Response){
 
 }
 
-export async function getSignUpForm(req: Request, res: Response){
+export async function renderSignupForm(req: Request, res: Response){
     return res.json({
         message: "success"
     })
